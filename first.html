@@ -32,6 +32,32 @@
     var mobiles = filter(products, isMobile);
 
     forEach(mobiles, console.log);
+
+    var evens = filter(data, function(elem) {
+        if(elem % 2 === 0 ) {
+            return true;
+        }
+        return false;
+    });
+
+    forEach(evens, console.log);
+
+    console.log("***********")
+
+    var names = map(products, function(elem) {
+        return elem.name.toUpperCase();
+    }); 
+
+    forEach(names, console.log);
+
+
+    var doubleIt = function(elem) {
+        return elem * 2;
+    }
+
+    var doubled = map(data, doubleIt);
+    forEach(doubled, console.log);
+
     </script>
 </body>
 
