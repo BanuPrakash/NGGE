@@ -72,7 +72,7 @@ function doTask() {
 
 	if(g < a) {
 		var b = 15; //function scope ==> hoisting ==> hoisted to function scope
-		c = 50;  
+		c = 50;  // hoisted to global scope
 	}
 	console.log(g, a, b, c);  
 }
