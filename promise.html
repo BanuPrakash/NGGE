@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Promise
+        function doTask() {
+            return new Promise((res, reject) => {
+                setTimeout(() => {
+                    reject(" one ")
+                }, 1000);
+            });
+        }
+
+        function doAnotherTask() {
+            return new Promise((res, reject) => {
+                setTimeout(() => {
+                    res(" two ")
+                }, 500);
+            });
+        }
+
+        Promise.all([doTask(), doAnotherTask()]).then(
+        values =>  console.log(values[0], values[1]),
+        rej => console.log("REJECT!!!")
+        );
+        // doTask().then(
+        //     res => console.log(res),
+        //     err => console.log("ERROR:", err)
+        // );
+
+        console.log("End!!!");
+        
+    </script>
+
+
+</body>
+
+</html>

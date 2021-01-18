@@ -25,7 +25,8 @@ Softwares required: [OSS]
 
 JavaScript
 	==> Scripting language, loosely typed, interpretted language
-
+	==> ECMA Std
+	ECMA Script: 5
 
 	file.js ==> JavaScript engine
 ========================================
@@ -305,8 +306,142 @@ console.log(fiveAdder(2)); // 7
 
 var tenAdder = adder(10);
 console.log(tenAdder(4)) // 14
+======================================================
 
 
+	getEmployee(12); 
+		==> REST call
+		==> Fetch data and cache it
+
+	getExamplee(12);
+		==> get it from cache
+
+	getEmployee(55);
+		==> REST call
+		==> Fetch data and cache it
+
+	getEmployee(55);
+		==> get it from cache
+ =========================
+
+ Memoize pattern ==> Cache
+ ==================================================================
+
+ ES2015 => ECMAScript 6
+ ----------------------
+
+ Source Code ES2015/ES6 ==> Transcompiler ==> ES5 or below ==> JS engine
+
+ Transpiler ==> Babel/ Tracuer
+
+ Babel is a free and open-source JavaScript transcompiler that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript that can be run by older JavaScript engines.
+=====================================================
+
+Features of ES2015:
+
+1) Scope variables and constants
+JS5 ==> global and function scope
+ES2105 ==> block scope
+
+"let" and "const"
+
+var g = 100; // global variable
+const PI = 3.14159; 
+
+function doTask() {
+	var a =  10; //function scope
+
+	if(g > a) {
+		let b = 15;  // block scope
+		c = 50;  
+	}
+	console.log(g, a); // b is not visible  
+}
+
+doTask();
+console.log(g);   
+==================================
+
+2) Arrow functions and default arguments
+
+let add = (x = 0, y = 0, z = 0) => {
+	return x + y + z;
+}
+
+add(4,5,7);
+
+add(56,1); // 57
+
+========
+
+function map(elems, transformFn) {
+    var data = [];
+    forEach(elems, (elem) => data.push(transformFn(elem)));
+    return data;
+}
+=======================================
+
+3) Deconstruction
+	3.1) Array
+
+	var colors = ["red", "green", "blue","orange"];
+
+	JS 5 way:
+	var r = colors[0];
+	var g = colors[1];
+
+	ES2015 way:
+
+	let [r,g,...other] = colors;
+
+	3.2) Object
+
+		var product =  { 
+			"id": 1, 
+			"name": "iPhone", 
+			"price": 124447.44, 
+			"category": "mobile" };
+
+		let {name,category} = product;
+		// let name = product.name
+
+		let {name:x} = product;
+		// let x = product.name;
+=================================================================
+4) Clone
+
+         var colors = ["red", "green", "blue","orange"];
+
+         var ref = colors ; // reference
+
+         ref[0] = "Gold";
+
+        let r = [...colors]; // clone
+
+
+        ======
+
+        	var product =  { 
+				"id": 1, 
+				"name": "iPhone", 
+				"price": 124447.44, 
+				"category": "mobile" };
+
+			var prdCopy = {...product}; 
+====================================================================
+
+5) Promise API ==> Async calls to be made
+	==> like Callable and Future
+
+	promise chain :
+	fetch("https://jsonplaceholder.typicode.com/users")
+	.then(res => res.json())
+	.then(data => console.log(data));
+
+=====================
+
+6) Promise API with async and await
+=====================================================
 
 
 
