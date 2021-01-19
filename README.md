@@ -438,10 +438,207 @@ function map(elems, transformFn) {
 	.then(res => res.json())
 	.then(data => console.log(data));
 
+
+	doTask().
+	then(..).
+	then(...).
+	catch(err => console.log(err));
+
+
+
 =====================
 
 6) Promise API with async and await
 =====================================================
+
+7) keyword class:
+
+class Person {
+	constructor(name, age) {
+		this.name = name || "";
+		this.age = age || 0;
+	}
+
+	getName() {
+		return this.name;
+	}
+
+	getAge() {
+		return this.age;
+	}
+}
+
+let p1 = new Person("Tim", 34);
+
+let p2 = new Person("Raj");
+
+let p3 = new Person();
+==========================================================
+
+8) class Product {
+	...	
+}
+
+
+class Tv extends Product {
+	constructor(id,name,price,screenType) {
+		super(id,name,price);
+		this.screenType = screenType;
+	}
+	..
+}
+======================================================
+
+9) New String literal [ ticks ``] ==> useful for view templates
+
+
+"" or ''
+
+var name = "Peter";
+
+var msg = `
+
+	Welcome to Angular Training,
+
+	Welcome ${name}
+
+	Happy Learning
+`;
+
+
+older way:
+
+"Welcome to Angular Training," + "Welcome " + name + ...
+=============================================================================
+
+10) Generators: Saga of events to execute 
+
+function* doTask() {
+	console.log("one");
+
+	yield 12;
+
+	console.log("two");
+
+	yield "Hello";
+}
+
+let iter = doTask();
+
+iter.next() //  {value: 12, done: false}
+
+iter.next() // {value: "Hello", done: false}
+======================================================
+
+Proxy, Reflection
+============================================================
+
+
+
+======================================================
+
+11) Proxy, Reflection
+============================================================
+
+12) ES 6 Module system
+
+lib.js
+
+export let map = function(elems, transformFn) {
+	...
+}
+
+export const filter = function(elems, predicate) {
+	...
+}
+
+let forEach = function (..) {}
+=--===
+other.js
+
+import { map, filter} from './lib';
+
+map(..)
+filter(...)
+
+---
+some.js
+
+import * as library from './lib';
+
+library.map()
+library.filter()
+==========================================================
+
+ES2015 or ESNext
+	Transpile to 
+ES 5
+=================================
+function Upper() {
+    return function(target: Object, key: string) {
+        let val = target[key];
+
+        const setter = (data:string) => {
+            val = data.toUpperCase();
+        }
+
+        const getter = () => val;
+
+        Object.defineProperty(target, key , {
+            get: getter,
+            set : setter
+        });
+    }
+}
+
+class User {
+    @Upper()
+    firstName: string;
+
+    @Upper()
+    lastName: string;
+}
+
+let u = new User();
+u.firstName = "Banu";
+u.lastName = "prakash";
+console.log(u.firstName);
+console.log(u.lastName);
+=====================
+
+Node Js
+===============
+
+	==> Node.JS == JavaScript environment with V8 JavaScript engine ==> headless JS engine
+
+	Chrome ==> V8 engine
+
+	=======> Why Node.JS
+		1) As an environment to build web application
+			Vue, react, Angular, Backbone
+			TypeScript, ES2015 ==> ES5
+
+			100+ files ==> bundle.js
+			minify, uglify
+			Running test scripts
+		2) Run standalone application written in JS
+		3) Write Server side RESTendpoints, Web application [ like servlets, ASP, PHP, ...]
+=============================================================
+
+Day 2:
+-----
+
+		
+
+
+ 
+
+
+
+
+
+
+
 
 
 
