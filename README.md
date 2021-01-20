@@ -948,8 +948,22 @@ Structural directive: *ngFor
 [()] ==> 2 way binding
 ===================================================================================
 
+ 
+ Parent ==> Child ==> @Input
+
+ Child ==> Parent ==> @Output
 
 
+
+chrome web store ==> Augury
+=====================================================
+
+Testing
+	E2E testing ==> Protractor
+	Unit Testing ==> Jasmine + ATF
+==================================
+
+ 
 
 
 

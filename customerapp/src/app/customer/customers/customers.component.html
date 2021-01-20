@@ -30,7 +30,7 @@
                       type="text"
                       name="searchText"
                       [(ngModel)] ="searchText" 
-                      (keypress) ="filterCustomers()"
+                      (keyup) ="filterCustomers()"
                       class="novalidate form-control  mr-sm-2"
                     />
                   </div>
@@ -43,7 +43,8 @@
     </div>
    </div>
 
-<app-customers-card [customers]="customers" ></app-customers-card>
+<app-customers-card [customers]="customers" 
+  (delEvent) ="deleteData($event)"></app-customers-card>
 
 
  

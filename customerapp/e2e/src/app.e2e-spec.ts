@@ -1,23 +1,36 @@
-import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { browser, element, by } from 'protractor';
 
-describe('workspace-project App', () => {
-  let page: AppPage;
+describe("Customer App E2E Test Suite", () => {
+  describe("customers route page should work fine", () => {
+    beforeEach(() => {
+      browser.waitForAngularEnabled(false);
+    });
+    beforeAll(() => {
+        // window.sessionStorage.setItem('user','dummy');
+    });
 
-  beforeEach(() => {
-    page = new AppPage();
-  });
+    it("should display customers ", async (done) => {
+      browser.get("/");
+      browser.waitForAngular();
+      let customers = element.all(by.css(".card"));
+      let count = await customers.count();
+      expect(count).toBe(6);
+      done();
+    });
 
-  it('should display welcome message', async () => {
-    await page.navigateTo();
-    expect(await page.getTitleText()).toEqual('customerapp app is running!');
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
+    it("should filter", async (done) => {
+      browser.get("/");
+      browser.waitForAngular();
+      let searchInput = element(by.name("searchText"));
+      searchInput.sendKeys("Geller").then(async () => {
+       
+        let customers = element.all(by.css(".card"));
+        expect(await customers.count()).toBe(2);
+        done();
+      });
+      browser.sleep(1000);
+     
+    });
+    
   });
 });
