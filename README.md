@@ -627,10 +627,197 @@ Node Js
 
 Day 2:
 -----
+	Object, function constructor ==> class owned and object owned methods, static methods, JSON [ UI ]
 
-		
+	functional style of programming ==> HOF ==> Function accept function as argument, function return a function
+
+	Filter, map, reduce, forEach ==> big data
+
+	closure ==> inner function has an access to all the members of outer
+	
+	ES2015 ECMAScript 6
+	arrow, default arguments, deconstructing array and objects, promise api, async and await, class, ES6 modules, string literal ``, Generator
+--------------------------------------------
+Node.js [ 14 LTS version]
+-------------------------
+	1) as an environment for building web applications [ React, Vue, Angular,..]
+		Transcompiler, linting, testing, bundling
+	2) Server side application
+	3) Standalone application using JS
+
+	JS event loop [ timers, pendingOStask,..]
+
+	NodeJS ==> platform with unified interface to interact with V8 and libuv
+
+	JS [ 100% js] ==> Node.JS [ JS and C++] ==> V8[ C++] and libuv [ C++ ]
+
+	Each Node.JS has only one event loop [ one thread ]
+---------------------------------------------------------------
+Pure vanilla Module System:
+cart.js
+//IIFE
+(function() {
+	var cart[]; //scope of module
+
+	function addToCart(item) {
+		cart.push(item);
+	}
+
+	function getItems() {
+		return cart;
+	}
+})();
+
+checkout.js
+(function() {
+	var cart[]; // scope of module
+	function pay() {
+
+    }
+})();
+
+index.js
+<script src="cart.js"></script>
+<script src="checkout.js"></script>
+
+AMD ==> Asynchronous Module Definition
+
+ES6 module system
+
+Node.JS uses CommonJS module system
+
+module.exports ==> export of ES 6
+require() ==> import of ES 6
+======================================
+
+Servlet / ASP / PHP ==> thread based
+
+NodeJS ==> Event loop
+
+Prefer NodeJS for server side only if real-time streaming of data is required.
+Never use NodeJS for CPU intense operations, DataBase, but prefer for Reactive Database [ Postgres, MongoDB]
+=====================================================================
+
+Node JS Application / modules
+
+NPM ==> Node Package Manager / YARN ==> Maven / Gradle / PIP
+	: manages packages ==> install dependecies [ 3rd party]
+	: to run goals [ build, test, lint]
+
+package.json ==> pom.xml [ Maven]
 
 
+
+npm i -D mocha chai request [ Development dependencies]
+
+
+npm i express [ production dependeincies]
+
+Maven: <scope>test</scope>
+
+
+
+ 	"chai": "^4.2.0",
+    "mocha": "~8.2.1",
+    "request": "2.88.2"
+=======================================================
+
+JS Unit Testing:
+	many frameworks are available:
+	1) JEST [ RTL ]
+	2) JASMINE 
+	3) MOCHA
+		Mocha uses 3rd party assertion library
+
+	AAA ==> Assemble Action Assert	
+==================================================
+
+JavaScript Build tools
+----------------------
+
+Web applications:
+	1) transcompile or transpile ==> ES2015 or ESnext or Typescript or CoffeeScript or Dart ==> ES5
+	2) minify the code ==> remove empty spaces
+	3) uglify ==> longer names ==> shorter form
+	4) Linting ==> static code analysis
+	5) tests
+	6) bundle [ #no of files into chunk ==> bundle.js]
+	reduce network calls
+		<script src="person.js"></script>
+		<script src="user.js"></script>
+		<script src="product.js"></script>
+		<script src="checkout.js"></script>
+
+		-------------------------------------
+		<script src="bundle.js"></script>
+
+Grunt, gulp, webpack, ... are JS build tools
+
+Webpack:
+webpack is an open-source JavaScript module bundler. 
+It is made primarily for JavaScript, but it can transform front-end assets such as HTML, CSS, and images if the corresponding loaders are included.
+ 
+==> create-react-app ==> comes with webpack
+==> @angular/cli ==> comes with webpack
+====================================================================
+
+	npm test
+	npm serve
+	npm run build-dev
+	npm run build-prod 
+==============================
+
+gulpex.zip ==> extract ==> npm i
+
+ // executable node modules install globally
+
+$ npm i -g gulp
+
+========================
+Webpack and Gulp
+=========================
+
+TypeScript
+----------
+
+JS ==> loosely typed
+
+var name = "Smith"; // string
+ 
+name = 10; // number
+name++;
+name = true; // boolean
+if(name)
+
+JS engine ==> JS code
+=============
+
+Dart, CoffeeScript, TypeScript ==> concept of data types and better coding at source code level. 
+Compilers detect issues with source code level ==> transpile ==> engine
+=====================
+ESNext is addapting most of TS features
+=========================================
+
+TypeScript ==> introduces data types
+
+	Number, String, Boolean, Array, Enum, Void, Any
+
+	let name:String = "Smith";
+
+	name = 45; // error ==> detected by tsc
+
+	let age:Number = 10;
+===================
+"use strict";
+
+function() {
+	c = 10; // error
+}
+
+=================================================
+
+Day 3
+-----
  
 
 
