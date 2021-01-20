@@ -818,7 +818,143 @@ function() {
 
 Day 3
 -----
- 
+
+Angular v11 
+
+Angular 1.6 and Angular 2+ [ 2016 ]
+--------------------------------------
+
+Single Page Application ==> Web application frameworks : React, Angular , Backbone
+
+Server Side Rendering and client side rendering
+
+SSR: PHP, ASP, ASP.NET, Servlet, EJS, JADE, PUG
+
+Client Side Rendering:
+-----------------------
+
+Templates libraries: jquery, Mustache, Handlebars, Underscore
+
+----------------------------------
+
+SPA ==> we have a single HTML page but multiple views [ products, user management, orders, payment, ..]
+
+Challenges faced in building SPA:
+1) Data binding [ JSON data <===> HTML elements]
+	one-way binding or two-way binding
+2) Dependency Injection
+		Without DI:
+			<script src="a.js"></script>
+			<script src="b.js"></script>
+			<script src="c.js"></script>
+			<script src="d.js"></script>
+			<script src="e.js"></script>
+3) Different URIs for different views ==> routing
+		http://server.com ==> index.html
+
+		http://ge.com
+
+		http://ge.com/products
+		http://ge.com/locations
+		http://ge.com/healthcare/offices
+
+		==> SEO
+		==> Bookmark
+		==> Naviagation between views
+===========================================
+
+React, Angular, Vue, Backbone ,... are libraries / Frameworks for building web application
+===========================================================================================
+
+Library ==> helpers; partial solution
+			jQuery is a library for simplify DOM handling
+			Handlebars is a template libary ==> simplifies view creation
+
+
+Framework ==> complete solution
+
+
+For React library ==> gives me solution for templates alone. 
+
+		HTTP ==> axios, restful, fetch
+		Security
+
+Angular Framework ==> complete solution
+================================================================================
+
+Angular building blocks:
+	Module, Component, Service, Directives, Pipe, Guard, Router
+
+	npm i -g @angular/cli
+
+	npm install -g @angular/cli@latest
+
+	============
+
+	ng new customerapp
+	===> Strict Y
+	==> routing N
+	==> all other defaults
+===========================================
+
+ Angular built using TypeScript // can use ES6 or Dart
+ ======================================================
+
+ ng new customerapp
+ ==> builds scaffolding code and internally uses webpack
+ webpack uses ==> angular.json
+
+customer component ==> sleector will be <app-customer>
+
+product component -=> selector will be <app-product>
+
+HTML 5 <section> ==> <div>
+=========================
+
+Angular Compiler options : JIT and AOT
+Just In Time ==> Browser loads Compiler [ ~1 MB ] Angular to HTML happens as and when required
+Ahead of Time ==> Angular code ==> JS and HTML and this is what is loaded on to browser [ Angular Compiler not required], Any template errors will be detected on the fly
+
+
+=======================
+
+
+@NgModule({
+  declarations: [all components and directives of the module],
+  imports: [  BrowserModule and other modules ],
+  providers: [services],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+==============
+
+ng serve
+
+Structural directive: *ngFor
+
+
+
+<div *ngFor="let customer of customers">
+    {{customer.firstName}} {{customer.lastName}}
+</div>
+
+
+
+[] ==> to bind to variable
+() ==> events
+
+[()] ==> 2 way binding
+===================================================================================
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-lg-3 card my-2" *ngFor="let customer of customers">
+            <div class="card-header">
+                {{customer.firstName}} {{customer.lastName}}
+                <a class="fa fa-trash pull-right"></a>
+            </div>
+            <div class="card-body">
+                <img class="img pull-left" src="assets/images/{{customer.gender}}.png" />
+                {{customer.address}}
+                <a class="fa fa-edit pull-right"></a>
+            </div>
+        </div>
+    </div>
+</div>
