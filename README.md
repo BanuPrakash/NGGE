@@ -963,8 +963,255 @@ Testing
 	Unit Testing ==> Jasmine + ATF
 ==================================
 
- 
+@Input()
+@Output() EventEmitter
+Karma + jasmine for Unit testing
+Protroctor for e2e
+==========================================
 
+Change Detection Example:
+
+import { Component } from "@angular/core";
+
+app.component.ts
+
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
+})
+export class AppComponent {
+  foods = ["Burger", "Rolls", "Pizza"];
+
+  addFood(food) {
+  // this.foods = [...this.foods, food];
+  this.foods.push(food);
+}
+}
+
+
+<input #newFood type="text" placeholder="Enter a new food">
+<button (click)="addFood(newFood.value)">Add food</button>
+
+<app-child [data]="foods"></app-child>
+
+child.component.ts
+=======================
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
+
+@Component({
+  selector: "app-child",
+  templateUrl: "./child.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChildComponent {
+  @Input() data: string[];
+
+  constructor(private cd: ChangeDetectorRef) {}
+
+  refresh() {
+    this.cd.detectChanges();
+  }
+}
+
+<ul>
+  <li *ngFor="let item of data">{{ item }}</li>
+</ul>
+
+<button (click)="refresh">Refresh</button>
+
+
+
+==============
+
+Angular Template Variable:
+#newFood
+<input #newFood type="text" placeholder="Enter a new food">
+<button (click)="addFood(newFood.value)">Add food</button>
+
+ChildComponent:
+Default:
+changeDetection: ChangeDetectionStrategy.Default
+==> any data which is injected to child gets changed [ mutation or referece]
+	child component is re-rendered [ Change Detection is triggred]
+
+changeDetection: ChangeDetectionStrategy.OnPush
+	==> First time when component is created [ Child component] data is passed on as @Input()
+	then child change detection happens
+ ==>
+ 	In parent if any new reference is injected to child then only the child gets refreshed
+	 If @Input() if mutation happens child is not getting refreshed
+==========================
+
+1) 
+ a) Test with ChangeDetectionStrategy.OnPush and ChangeDetectionStrategy.Default
+ b) test with 
+ 	 this.foods = [...this.foods, food];
+ 	 and
+    this.foods.push(food);
+
+
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
+})
+export class AppComponent {
+  foods = ["Burger", "Rolls", "Pizza"];
+
+  addFood(food) {
+   // this.foods = [...this.foods, food];
+    this.foods.push(food);
+  }
+}
+
+<input #newFood type="text" placeholder="Enter a new food">
+<button (click)="addFood(newFood.value)">Add food</button>
+
+<app-child [data]="foods"></app-child>
+==============================================
+
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
+
+@Component({
+  selector: "app-child",
+  templateUrl: "./child.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChildComponent {
+  @Input() data: string[];
+
+  // constructor(private cd: ChangeDetectorRef) {}
+
+  // refresh() {
+  //   this.cd.detectChanges();
+  // }
+}
+
+<ul>
+  <li *ngFor="let item of data">{{ item }}</li>
+</ul>
+
+<!-- <button (click)="refresh">Refresh</button> -->
+===============================================
+
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
+
+@Component({
+  selector: "app-child",
+  templateUrl: "./child.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChildComponent {
+  @Input() data: string[];
+
+  constructor(private cd: ChangeDetectorRef) {}
+
+  refresh() {
+    this.cd.detectChanges();
+  }
+}
+===========
+https://change.stackblitz.io
+
+https://stackblitz.com/edit/change?file=src/app/app.module.ts
+https://stackblitz.com/edit/change?file=src/app/app.component.ts
+https://stackblitz.com/edit/change?file=src/app/app.component.html
+https://stackblitz.com/edit/change?file=src/app/child.component.ts
+https://stackblitz.com/edit/change?file=src/app/child.component.html
+========================================================================
+
+@ViewChild and @ViewChildren
+	This gets a pointer/ refrence to underlying DOM or Child Component
+
+export class AppComponent {
+  name = "Angular " + VERSION.major;
+
+  @ViewChild("ref")
+  txtRef: ElementRef;
+
+  ngAfterViewInit() {
+    this.txtRef.nativeElement.value = "TEST";
+    this.txtRef.nativeElement.focus();
+    console.log("called", this.txtRef);
+  }
+
+
+  <input #ref type="text" />
+
+  ==============
+
+import { Component, ElementRef, VERSION, ViewChild } from "@angular/core";
+import { SecondComponent } from "./second.component";
+
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
+})
+export class AppComponent {
+  name = "Angular " + VERSION.major;
+
+  @ViewChild("ref")
+  txtRef: ElementRef;
+  
+  @ViewChild(SecondComponent)
+  secondRef:SecondComponent;
+
+  ngAfterViewInit() {
+    this.txtRef.nativeElement.value = "TEST";
+    this.txtRef.nativeElement.focus();
+    console.log("called", this.txtRef);
+
+    this.secondRef.doTask();
+  }
+}
+ ==========
+ <input #ref type="text" />
+
+<second></second>
+
+===========
+
+
+
+import { Component, ElementRef, VERSION, ViewChild } from "@angular/core";
+
+@Component({
+  selector: "second",
+  template: "<h1>Second</h1>"
+})
+export class SecondComponent {
+  doTask() {
+    console.log("Task executed!!!");
+  }
+}
+==================================
+
+@ViewChildren(SecondComponent)
+
+<second></second>
+<second></second>
+<second></second>
+<second></second>
+====================================
 
 
 
