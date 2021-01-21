@@ -8,6 +8,8 @@ import { Customer } from 'src/app/common/customer';
 })
 export class CustomersComponent implements OnInit {
 
+  isCard:boolean = true;
+
   customers:Customer[] = []; //state
   original:Customer[] = [];
   searchText:string = "";
@@ -66,7 +68,7 @@ export class CustomersComponent implements OnInit {
   filterCustomers() {
     this.customers = this.original.filter(c =>  c.firstName.toUpperCase().indexOf(this.searchText.toUpperCase()) >= 0 
     ||   c.lastName.toUpperCase().indexOf(this.searchText.toUpperCase()) >= 0);
- 
+    
   }
 
   deleteData(id:number):void {

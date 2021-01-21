@@ -1214,6 +1214,542 @@ export class SecondComponent {
 ====================================
 
 
+============
+
+const routes:Route[] = [
+  {
+    path: 'home',
+    component : HomeComponent
+  },
+  {
+    path: 'customers',
+    component : CustomersComponent,
+   // canActivate: [LinkActivate]
+  },
+  {
+    path: 'customers/edit/:id',
+    component : CustomerEditComponent
+  },
+  {
+    path : 'orders',
+    loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
+  }, 
+  {
+    path : '**',
+    component: HomeComponent
+  }
+];
+
+
+const routes: Routes = [
+    {
+      path: '',
+      component: OrderComponent,
+      children: [
+          {
+              path : 'report',
+              component : ReportComponent
+          }
+      ]
+    } 
+  ];
+  ============
+@NgModule({
+   declarations:[OrderComponent, ReportComponent],
+    imports: [RouterModule.forChild(routes),ChartModule],
+    exports: [RouterModule] 
+})
+export class OrdersModule{}
+
+===================
+ ===============
+
+ @Injectable()
+export class LinkActivate implements CanActivate {
+    constructor(private router: Router){}
+
+    canActivate(route: import("@angular/router").ActivatedRouteSnapshot, 
+            state: import("@angular/router").RouterStateSnapshot): boolean | 
+            import("@angular/router").UrlTree | 
+            import("rxjs").Observable<boolean | 
+            import("@angular/router").UrlTree> | Promise<boolean | 
+            import("@angular/router").UrlTree> {
+        let user = window.sessionStorage.getItem("user");
+
+        if(user) {
+            return true;
+        } else {
+             this.router.navigate(['/home']);
+        }
+
+    }
+
+}
+=============
+
+import { Directive, ElementRef, Renderer2, HostListener, HostBinding } from '@angular/core';
+
+@Directive({
+  selector: '[appHover]'
+})
+export class HoverDirective {
+
+  constructor(private el:ElementRef, private renderer: Renderer2) { }
+
+ 
+  @HostBinding('style.border') border: string
+
+  @HostListener("mouseover")
+  onMouseOver(){
+    let part = this.el.nativeElement.querySelector('.img') 
+    this.renderer.setStyle(part, 'display', 'block'); 
+    this.border = '5px solid red';
+  }
+
+  @HostListener("mouseout")
+  onMouseOut() {
+    let part = this.el.nativeElement.querySelector('.img') 
+    this.renderer.setStyle(part, 'display', 'none'); 
+    this.border = '';
+  }
+
+}
+
+===================
+
+import { PipeTransform, Pipe } from "@angular/core";
+
+@Pipe({
+    name: "convert"
+})
+export class Upper implements PipeTransform {
+    transform(value: any, ...args: any[]) {
+        if(args[0] === 'upper') {
+        return value.toUpperCase();
+         }
+    }
+    
+}
+
+=============
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Customer } from './Customer';
+
+@Injectable()
+export class DataService {
+    customerUrl:string =  'http://localhost:3000/customers';
+    ordersUrl:string = 'http://localhost:3000/orders';
+
+    constructor(private http: HttpClient) {
+    }
+
+    getCustomers(): Observable<Customer[]> {
+        return this.http.get<Customer[]>(this.customerUrl);
+    }
+
+    getCustomer(id:number): Observable<Customer> {
+        return this.http.get<Customer>(`${this.customerUrl}/${id}`);
+    }
+
+    addCustomer(customer:Customer) : Observable<any> {
+        return this.http.post(this.customerUrl, customer);
+    }
+
+    updateCustomer(customer:Customer) :  Observable<any> {
+        return this.http.put(`${this.customerUrl}/${customer.id}`, customer);
+    }
+
+    deleteCustomer(id:number) : Observable<any> {
+        return this.http.delete(`${this.customerUrl}/${id}`);
+    }
+
+}
+====================
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse }
+  from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/tap';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyInterceptor implements HttpInterceptor {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    console.log(req);
+    return next.handle(req) ;
+
+  }
+}
+
+======================
+
+
+====================================================================
+
+Day 4:
+=======
+
+	Angular building blocks:
+		Module ==> @NgModule ==> 
+		configure a) components b) Directives c) Services d) Router
+		e) Pipe f) dependent Module
+
+		prefer multi-module application if its big app==> Webpack implements
+		code splitting
+			customer.module chunk [ js ]
+			product.module chunk [ js ]
+		==> helps in lazy loading
+
+		@NgModule
+
+		-------------
+
+		Components: @Component
+			==> state and behaviour
+			==> templateUrls ==> html
+			==> styleUrl
+			==> selector
+
+			@Input() and @Output() ==> EventEmitter
+
+			Structural Directives ==> *ngFor ==> DOM creation is controlled by Angular
+			*ngIf
+
+			[] ==> property binding
+			() ==> event binding
+			[(ngModel)] ==> for 2 way binding
+			#ref ==> template refrence
+
+			@ViewChild 
+			ComponentChangeDetection Default and OnPush
+------------------------------------------------------------------------
+component: <app-customers></app-customers>
+		state and behaviour ==> Model data ==> Customer
+
+Directive
+		Unlike Component directives won't have templates and styleUrl
+		used along with DOM or Component
+		Example:
+		<div *ngFor=...></div>
+		<div *ngIf="!isCard">List View</div>
+
+		basically used to control underlying elements state / behaviour
+		-------
+		styling; show / hide
+		non-model data
+=====================================================
+
+	ng new customerapp
+	ng g interface Customer
+	ng g c customer-card
+	ng g class util
+	ng g directive hover
+
+	<div input-box [name]=”’lightcyan’” [value]=”’CYAN’”></div>
+	 @Directive({
+ 		selector: ‘[input-box]’
+	 })
+ 	export class TestDirectives implements OnInit {
+    	   @Input() name: string;
+     	   @Input() value: string;
+      	 constructor(private elementRef: ElementRef) {
+      	 }
+     	 ngOnInit() {
+      	     console.log(“input-box keys : “, this.name, this.value);
+   	   }
+	 }
+===================================
+
+Pipe used to transform data
+{{customers | json}}  
+
+{{hireDate  | date:'dd-MM-yyyy'}}
+
+
+ng g pipe textconvert	
+
+--
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'textconvert'
+})
+export class TextconvertPipe implements PipeTransform {
+
+  transform(value: string, ...args: string[]): string {
+    if(args[0] === 'upper') {
+      return value.toUpperCase();
+    } else if (args[0] === 'lower') {
+      return value.toLowerCase();
+    }
+    return value;
+  }
+
+}
+
+{{customer.firstName | textconvert:'upper'}} {{customer.lastName | textconvert:'lower'}}
+===============================================================================================
+
+Pure function
+	function add(x,y) {
+		return x + y;
+	}
+
+
+Impure function
+	function getNumber() {
+		return Math.random();
+	}
+===================================================
+
+npm i -g json-server
+RESTFul endpoint ==> file system as end point ==> CRUD
+
+Service
+=========================================================
+
+rxjs ==> Reactive programming [Flux and Mono; reactor; netty]
+
+import { from } from 'rxjs';
+
+const observable = from([10, 20, 30]); // next(10); next(20); next(30); complete()
+
+const observer = {
+  next: x => console.log('Observer got a next value: ' + x),
+  error: err => console.error('Observer got an error: ' + err),
+  complete: () => console.log('Observer got a complete notification'),
+};
+
+const subscription = observable.subscribe(observer);
+
+observable.subscribe(x => console.log(x));
+
+
+// Later:
+subscription.unsubscribe();
+=========================================================
+ 
+
+import { fromEvent } from "rxjs";
+
+import { debounceTime } from "rxjs/operators";
+
+let clicks = fromEvent(document, "click");
+
+let result = clicks.pipe(debounceTime(1000));
+
+result.subscribe(x => console.log(x));
+
+
+===========
+
+document.addEventListener("click", () => {
+	
+});
+
+==========
+
+Amazon search text box ==> keypress ==> iphone
+
+fromEvent() ==> pipe(map(), filter(), flatMap(), zip(), ...)
+==========
+
+Traditional DOM handling:
+
+const button = document.querySelector('button');
+const output = document.querySelector('output');
+
+button.addEventListener('click', e => {
+  output.textContent = Math.random().toString(36).slice(2);
+});
+
+
+Reactive way:
+-------------
+import { fromEvent } from "rxjs";
+
+//I want only every 3rd click to generate the random string.
+	fromEvent(button, 'click')
+	  .bufferCount(3) // <--------- only added this line!
+	  .subscribe(() => {
+	    output.textContent = Math.random().toString(36).slice(2);
+	  });
+================================
+pipe() for manipulatikng the stream data:
+
+import { range } from "rxjs";
+import { map, filter, scan } from "rxjs/operators";
+
+const source$ = range(0, 10);
+
+source$
+  .pipe(
+    filter(x => x % 2 === 0),
+    map(x => x + x),
+    scan((acc, x) => acc + x, 0)
+  )
+  .subscribe(x => console.log(x));
+
+0, 4, 12,
+
+scan like reduce [aggregate]
+===================================================================
+
+using rxjs for component <==> Component communication
+=====================================================
+
+Subject ==> Observable + Observer
+
+Component 1 ==> places data in Subject
+Component 2 <== Subject push
+=========================================================
+
+Using services and Subject[rxjs] to communicate between components
+
+Services are singleton by default; rootInjector
+
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SharedService {
+  data: any[] = [];
+  subject: Subject<any> = new Subject();
+  constructor() { }
+
+  getSubject(): Subject<any> {
+    return this.subject;
+  }
+
+  addData(elem) {
+    this.data.push(elem);
+    this.subject.next(this.data); // emit ==> Observable
+  }
+}
+
+
+@Component({
+  selector: "hello",
+  template: `
+    <div *ngFor="let d of information">
+        {{d}}
+</div>
+  `,
+  styles: [
+    `
+      h1 {
+        font-family: Lato;
+      }
+    `
+  ]
+})
+export class HelloComponent {
+  information: any[] = [];
+  constructor(private sharedService: SharedService) {}
+
+  ngOnInit(): void {
+    this.sharedService.getSubject().subscribe(data => {
+      this.information = data;
+    });
+  }
+}
+===============================================================================
+
+Using HttpClient and rxjs in angular service:
+
+  import { HttpClientModule } from "@angular/common/http";	
+
+ @NgModule({
+  imports: [BrowserModule, FormsModule, HttpClientModule],
+====================================================================
+
+
+
+
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+
+@Injectable({
+  providedIn: "root"
+})
+export class DataService {
+  url: string = "https://jsonplaceholder.typicode.com/users";
+
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.url);
+  }
+}
+============
+
+export class AppComponent {
+    users: any[] = [];
+   dataSubscription: Subscription;
+
+  constructor(private dataService: DataService) {}
+
+  ngOnInit() {
+    this.dataSubscription = this.dataService.getUsers()
+     						 .subscribe(data => (this.users = data));
+   }
+
+  ngOnDestroy() {
+    this.dataSubscription.unsubscribe();
+  }
+}
+
+<div *ngFor="let user of users">
+  {{user.name}}
+</div>
+
+===========
+
+Modified AppComponent:
+The async pipe subscribes to an Observable.
+ When the component gets destroyed, the async pipe unsubscribes automatically to avoid potential memory leaks.
+
+
+export class AppComponent {
+   users$: Observable<any>;
+  constructor(private dataService: DataService) {}
+
+  ngOnInit() {
+     this.users$ = this.dataService.getUsers(); // Observable
+  }
+ 
+}
+
+<div *ngFor="let user of users$ | async">
+  {{user.name}}
+</div>
+
+ 
+
+
+
+
+
+
+       
+
+
+	
+
+
+
+
 
 
 

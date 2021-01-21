@@ -43,8 +43,14 @@
     </div>
    </div>
 
-<app-customers-card [customers]="customers" 
+<app-customers-card [customers]="customers" *ngIf="isCard"
   (delEvent) ="deleteData($event)"></app-customers-card>
+
+{{customers | json}}  
+
+<div *ngIf="!isCard">List View</div>
+
+<div [hidden]="true">Hidden Div</div>
 
 
  
