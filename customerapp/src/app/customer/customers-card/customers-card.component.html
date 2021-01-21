@@ -8,7 +8,7 @@
             <div class="card-body">
                 <img class="img pull-left" src="assets/images/{{customer.gender}}.png" />
                 {{customer.address}}
-                <a class="fa fa-edit pull-right"></a>
+                <a class="fa fa-edit pull-right" [routerLink]="['edit/', customer.id]"></a>
             </div>
         </div>
     </div>
