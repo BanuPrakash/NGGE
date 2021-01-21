@@ -15,13 +15,6 @@
       "address": "MG Road"
     },
     {
-      "id": 4,
-      "firstName": "Monica",
-      "lastName": "Geller",
-      "gender": "female",
-      "address": "some address"
-    },
-    {
       "id": 5,
       "firstName": "Ross",
       "lastName": "Geller",

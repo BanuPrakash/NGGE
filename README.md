@@ -1734,20 +1734,150 @@ export class AppComponent {
 <div *ngFor="let user of users$ | async">
   {{user.name}}
 </div>
+====================
+
 
  
 
 
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+
+  constructor() { }
+}
 
 
+========
 
+@Injectable()
+export class DataService {
 
+  constructor() { }
+}
+
+@NgModule({
+  ...
+  providers: [DataService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+====================================
+
+Instead of adding in AppModule or configuring in @Injectable.
+
+A sperate instance of DataService is available to HelloComponent [ no longer singleton]
+@Component({
+    selector:"hello",
+    providers:[DataService]
+})
+export class HelloComponent {
+
+}
        
+  return this.http.get<Customer>(`${this.customersUrl}/${id}`);
+
+  return this.http.get<Customer>(this.customersUrl + "/" + id);
+===================================================================
+
+Component, Pipe, Directive, Service, Module
+=============================================
+Routing 
+	SPA ==> a single html pages exists ==> different UrIs different views to be displayed
+		History API ==> Navigation between views
+
+	RouterModule
+
+	http://localhost:4200/customers
+
+	customers ==> CustomerComponent
+
+	orders ==> OrdersComponent
+
+TEmplate Drive form:
+Bind state to form field ==> 2 way binding happens
+
+[(ngModel)]="customer.firstName"
+
+============================
+
+adding order module ==> Lazy loading of module ==> Routes
+==========================================================	
 
 
-	
+
+const routes: Route[]  = [
+  {
+    path: 'home',
+    component : HomeComponent
+  },
+  {
+    path: 'customers',
+    component: CustomersComponent
+  },
+  {
+    path: 'customers/edit/:id',
+    component: CustomerEditComponent
+  },
+  {
+    path: '**',
+    component: HomeComponent
+  }
+]
 
 
+
+Nested Routes:
+
+AppComponent
+
+	<router-outlet></router-outlet>
+
+ParentComponent
+
+	<div>
+		some stuff here !!!
+	</div>
+	<router-outlet></router-outlet>
+
+SecondComponent
+
+ChildComponent
+
+
+const routes: Route[]  = [
+  {
+    path: 'second',
+    component : SecondComponent
+  },
+  {
+    path: 'parent',
+    component: ParentComponent,
+    children: [
+    	{
+    	path:'first',
+    	component: ChildComponent
+    	}
+    ]
+  }
+
+http://localhost:4200/parent/first
+=========================================================
+
+Lazy loading routes ==> code splitting
+
+Route Guards
+
+{
+    path: 'orders',
+    canActivate: [LinkActivate],
+    loadChildren:() => import('./orders/orders.module').then(m => m.OrdersModule)
+  }
+==============
+
+HttpInteceptor ==> use it add token headers, hashing, log, request, block, ....
+===============================================
 
 
 

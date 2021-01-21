@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {Route,RouterModule} from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -12,6 +12,8 @@ import {   HoverDirective } from './app.hover.directive';
 import { TextconvertPipe } from './textconvert.pipe';
 import { HomeComponent } from './home/home.component';
 import { CustomerEditComponent } from './customer/customer-edit.component';
+import { LinkActivate } from './common/link.activate';
+import { MyInterceptor } from './common/my.interceptor';
  
  
 const routes: Route[]  = [
@@ -26,6 +28,11 @@ const routes: Route[]  = [
   {
     path: 'customers/edit/:id',
     component: CustomerEditComponent
+  },
+  {
+    path: 'orders',
+    canActivate: [LinkActivate],
+    loadChildren:() => import('./orders/orders.module').then(m => m.OrdersModule)
   },
   {
     path: '**',
@@ -46,7 +53,7 @@ const routes: Route[]  = [
   imports: [
     BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
